@@ -32,7 +32,7 @@ export async function fetchRevenue() {
 
 export async function fetchLatestInvoices() {
   try {
-    
+
     console.log('Fetching latest invoices data...');
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
@@ -46,7 +46,7 @@ export async function fetchLatestInvoices() {
       LIMIT 5`;
 
     console.log('Data fetch completed after 5 seconds.');
-    
+
     const latestInvoices = data.map((invoice) => ({
       ...invoice,
       amount: formatCurrency(invoice.amount),
@@ -168,6 +168,8 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
+    console.log('invoice:');
+    console.log(invoice);
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
