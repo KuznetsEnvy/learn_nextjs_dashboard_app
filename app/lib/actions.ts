@@ -1,6 +1,9 @@
 'use server'; // marks all the exported functions within the file as Server Actions
 
 import {z} from 'zod';
+import postgres from 'postgres';
+
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 const FormSchema = z.object({
   id: z.string(),
@@ -20,4 +23,9 @@ export async function createInvoice(formData: FormData) {
   });
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
+
+  await sql`
+      INSERT INTO invoices (customer_id, amount, status, date)
+      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
 }
