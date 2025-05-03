@@ -13,10 +13,10 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function fetchRevenue() {
   try {
-    // Artificially delay a response for demo purposes.
-    // Don't do this in production :)
 
     console.log('Fetching revenue data...');
+    // Artificially delay a response for demo purposes.
+    // Don't do this in production :)
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
@@ -32,6 +32,12 @@ export async function fetchRevenue() {
 
 export async function fetchLatestInvoices() {
   try {
+    
+    console.log('Fetching latest invoices data...');
+    // Artificially delay a response for demo purposes.
+    // Don't do this in production :)
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     const data = await sql<LatestInvoiceRaw[]>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
       FROM invoices
@@ -39,6 +45,8 @@ export async function fetchLatestInvoices() {
       ORDER BY invoices.date DESC
       LIMIT 5`;
 
+    console.log('Data fetch completed after 5 seconds.');
+    
     const latestInvoices = data.map((invoice) => ({
       ...invoice,
       amount: formatCurrency(invoice.amount),
