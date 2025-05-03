@@ -6,6 +6,9 @@
     <HTMLCodeStyleSettings>
       <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
     </HTMLCodeStyleSettings>
+    <SqlCodeStyleSettings version="7">
+      <option name="QUERY_IN_ONE_STRING" value="0" />
+    </SqlCodeStyleSettings>
     <TypeScriptCodeStyleSettings version="0">
       <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
