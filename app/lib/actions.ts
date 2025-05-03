@@ -1,6 +1,8 @@
 'use server'; // marks all the exported functions within the file as Server Actions
 
 import {z} from 'zod';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import postgres from 'postgres';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
@@ -28,4 +30,7 @@ export async function createInvoice(formData: FormData) {
       INSERT INTO invoices (customer_id, amount, status, date)
       VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
   `;
+
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
 }
