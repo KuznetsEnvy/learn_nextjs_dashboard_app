@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     default: 'Acme Dashboard',
   },
   description: 'The official Next.js Course Dashboard, built with App Router.',
-  metadataBase: new URL('https://nextjs-dashboard-kappa-pearl-50.vesrcel.app'),
+  metadataBase: new URL('https://dashboard.dmitry-kouznetsov.ru/'),
 };
 
 export default function RootLayout({
