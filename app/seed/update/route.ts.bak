@@ -1,0 +1,29 @@
+import postgres from 'postgres';
+
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+
+async function changeInvoicesDateToDateTime() {
+
+  const result = await sql`
+      ALTER TABLE invoices
+      ALTER COLUMN date TYPE TIMESTAMP WITH TIME ZONE USING date::TIMESTAMP WITH TIME ZONE,
+      ALTER COLUMN date SET DEFAULT CURRENT_TIMESTAMP;
+  `;
+
+  return result;
+}
+
+export async function GET() {
+  try {
+    const result = await sql.begin((sql) => [
+      changeInvoicesDateToDateTime(),
+    ]);
+
+    return Response.json({
+      message: 'Invoices DATE successfully changed to TIMESTAMP WITH TIME ZONE',
+      result: result,
+    });
+  } catch (error) {
+    return Response.json({ error }, { status: 500 });
+  }
+}
