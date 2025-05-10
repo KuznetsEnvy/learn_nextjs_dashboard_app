@@ -77,12 +77,12 @@ export async function createInvoice(prevState: State, formData: FormData) {
     };
   }
 
-  // Revalidate the cache for the invoices page and redirect the user.
-  // revalidatePath('/dashboard/invoices');
+  // Use a more specific path first for better cache control
+  revalidatePath('/dashboard/invoices', 'page');
+  // Then also revalidate the dashboard page to update LatestInvoices
+  revalidatePath('/dashboard', 'page');
 
-  // Hopefully this will not revalidate 'app/dashboard/customers', as it's not part
-  // of the same file or path thanks to using 'app/dashboard/(overview)/page.tsx'
-  revalidatePath('/dashboard');
+  // Redirect user to invoices page
   redirect('/dashboard/invoices');
 }
 
@@ -120,13 +120,21 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
     return { message: 'Database Error: Failed to Update Invoice.' };
   }
 
-  revalidatePath('/dashboard');
+  // Use a more specific path first for better cache control
+  revalidatePath('/dashboard/invoices', 'page');
+  // Then also revalidate the dashboard page to update LatestInvoices
+  revalidatePath('/dashboard', 'page');
+
+  // Redirect user to invoices page
   redirect('/dashboard/invoices');
 }
 
 export async function deleteInvoice(id: string) {
   await sql`DELETE FROM invoices WHERE id = ${id}`;
-  revalidatePath('/dashboard');
+  // Use a more specific path first for better cache control
+  revalidatePath('/dashboard/invoices', 'page');
+  // Then also revalidate the dashboard page to update LatestInvoices
+  revalidatePath('/dashboard', 'page');
 }
 
 export async function authenticate(

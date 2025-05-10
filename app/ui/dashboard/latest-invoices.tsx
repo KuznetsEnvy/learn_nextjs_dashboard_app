@@ -4,8 +4,11 @@ import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 // import { LatestInvoice } from '@/app/lib/definitions';
 import { fetchLatestInvoices } from '@/app/lib/data';
+// import { unstable_noStore } from 'next/cache';
 
 export default async function LatestInvoices() {
+  // Tell Next.js not to cache this component's rendered result
+  // unstable_noStore();
   const latestInvoices = await fetchLatestInvoices();
   const latestInvoicesFetchTime = new Date(); // Record the fetch time on the server
 
